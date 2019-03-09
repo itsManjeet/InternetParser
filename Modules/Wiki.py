@@ -3,6 +3,8 @@
 import requests
 from bs4 import BeautifulSoup
 import sys
+import html.parser
+import re
 _URL_ = "https://en.wikipedia.org/wiki/"
 
 # 2 : article not found on wikipedia
@@ -40,14 +42,36 @@ class Wikipedia:
 
     def GetContentHeadings(self):
         headings = self.content.find_all('span')
-        self.headings = []
+        self.headings = {}
         for i in headings:
             try:
                 if str(i.get('class')[0]) == "mw-headline" :
                     data = i.text.strip()
-                    self.headings.append(data)
+                    self.headings[data] = i
 
             except TypeError as e:
                 if e == "'NoneType' object is not subscriptable":
                     pass
+    def GetContent(self,heading):
+        content = str(self.content)
+        j=0
+        last = 0
+        found = False
+        for i in self.headings: 
+            if found:
+                break
+            if i == heading:
+                found = True
+            last = i
+        if not found:
+            return None
+        content = content[content.find(str(self.headings[last])):content.find(str(self.headings[i]))]
+        cleantext = BeautifulSoup(content,'html5lib')
+        para = cleantext.find_all('p')
+        para_ = ""
+        for i in para:
+            para_ = para_ + i.text.strip()
+        pattern = r'\[.*?\]'
+        return re.sub(pattern,'',para_)
+
         
