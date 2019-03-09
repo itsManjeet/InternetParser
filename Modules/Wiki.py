@@ -40,7 +40,14 @@ class Wikipedia:
 
     def GetContentHeadings(self):
         headings = self.content.find_all('span')
+        self.headings = []
         for i in headings:
-            if i.get('title') == None:
-                continue
-            print(i.get('title'))
+            try:
+                if str(i.get('class')[0]) == "mw-headline" :
+                    data = i.text.strip()
+                    self.headings.append(data)
+
+            except TypeError as e:
+                if e == "'NoneType' object is not subscriptable":
+                    pass
+        
