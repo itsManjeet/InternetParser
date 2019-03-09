@@ -13,6 +13,8 @@ _URL_ = "https://en.wikipedia.org/wiki/"
 
 class Wikipedia:
     def Start(self,word):
+        if " " in word:
+            word.replace(" ","_")
         page = requests.get(_URL_ + word)
         self.soup = BeautifulSoup(page.text, 'html5lib')
         self.content = self.soup.find('div',attrs={'class':'mw-body'})
