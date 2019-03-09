@@ -37,10 +37,8 @@ class Wikipedia:
         return 5
 
     def GetContentHeadings(self):
-        
-
-Wiki = Wikipedia()
-
-Wiki.Start(sys.argv[1])
-Wiki.GetInfoCard()
-Wiki.GetContentHeadings()
+        headings = self.content.find_all('span')
+        for i in headings:
+            if i.get('title') == None:
+                continue
+            print(i.get('title'))
