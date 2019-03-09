@@ -3,7 +3,6 @@
 import requests
 from bs4 import BeautifulSoup
 import sys
-import html.parser
 import re
 _URL_ = "https://en.wikipedia.org/wiki/"
 
