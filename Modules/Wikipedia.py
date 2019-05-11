@@ -4,15 +4,14 @@ from bs4 import BeautifulSoup
 import sys
 import re
 
-URL = "https://en.wikipedia.org/wiki"
+URL = "https://en.wikipedia.org/wiki/"
 PAGE_MISSING_LINES = "Wikipedia does not have an article with this exact name"
 class wikipedia:
     def __init__(self,ask):
-        if ' ' in ask:
-            ask.replace(' ','_')
+        ask = ask.replace(" ","_")
 
         self.__url__ = URL + ask
-        self.__page__ = requests.get(self.url)
+        self.__page__ = requests.get(self.__url__)
         self.__soup__ = BeautifulSoup(self.__page__.text,'html5lib')
         self.__content__ = self.__soup__.find('div',attrs={'class':'mw-body'})
 
